@@ -78,6 +78,15 @@ public class ServiceManager {
 		}
 		return result;
 	}
+	
+	
+	public List<String> getAllAddonServicesAdhFctn() {
+		List<String> result = new ArrayList<String>();
+		for (Service service : daoService.getServices()) {
+			result.add(SERVICE_ADH_FUNCTION_PREFIX + service.getKey().toUpperCase());
+		}
+		return result;
+	}
  
 	public void updateUIService(final UIService service) {
 		daoService.updateService(convertFromUI(service));
