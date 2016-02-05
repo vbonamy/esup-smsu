@@ -84,7 +84,7 @@ public class WsController {
 	 * -i \
 	 * -X GET \
 	 * -H "Content-Type: application/json" \
-	 * http://localhost:8080/ws/sms/member/loginTestSmsu
+	 * http://localhost:8080/ws/member/loginTestSmsu
 	 */
 	@GET
 	@Path("/member/{login}")
@@ -98,6 +98,24 @@ public class WsController {
 				logger.warn("getValidCgMember on " + login + " failed - user not found", e);
 			}
 			return member;
+		} else {
+			throw new SmsuForbiddenException("You can't call this WS from this remote address");
+		}
+	}
+	
+	/**
+	 * curl \
+	 * -i \
+	 * -X GET \
+	 * -H "Content-Type: application/json" \
+	 * http://localhost:8080/ws/member/loginTestSmsu/services
+	 */
+	@GET
+	@Path("/member/{login}/services")
+	@Produces("application/json")
+	public List<UIService> getUIServices4Member(@PathParam("login") String login, @Context HttpServletRequest request) {
+		if(checkClient(request)) {
+			return serviceManager.getUIServicesAdhFctn(login);
 		} else {
 			throw new SmsuForbiddenException("You can't call this WS from this remote address");
 		}
