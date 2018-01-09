@@ -17,16 +17,9 @@
 	-->
 	
 	 <!-- for spring annotation @Autowired -->
-     <context:annotation-config />
-
-     <bean id="propertyConfigurer" 
-	    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	  <property name="locations" > 
-	      <list>
-	      	<value>classpath:/properties/config.properties</value>
-	      </list>
-	  </property>
-	</bean>
+    <context:annotation-config />
+    
+	<context:property-placeholder location="classpath:/properties/config.properties" />
 
 	<import resource="auth/auth.xml" />
 	<import resource="business/business.xml" />
