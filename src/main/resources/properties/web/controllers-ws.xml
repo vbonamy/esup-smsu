@@ -20,7 +20,7 @@
   <!-- we do not use JSR 303 validator annotations, so disable validation -->
   <bean id="validator" class="org.esupportail.smsu.web.OptionalValidatorFactoryBean" />
 
-  <bean id="WsController" class="org.esupportail.smsu.web.ws.WsController">
+  <bean id="wsController" class="org.esupportail.smsu.web.ws.WsController">
 		<property name="authorizedClientNames" value="${smsu.ws.authorizedClientNames}"></property>
   </bean>
 </beans>
