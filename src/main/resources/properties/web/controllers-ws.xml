@@ -13,16 +13,14 @@
         http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-  <!-- for spring annotation @Autowired -->
-  <context:annotation-config />
+  
+  <context:component-scan base-package="org.esupportail.smsu.web.ws"/>
      
   <context:property-placeholder location="classpath:/properties/config.properties" />
      
   <mvc:annotation-driven validator="validator" />
+  
   <!-- we do not use JSR 303 validator annotations, so disable validation -->
   <bean id="validator" class="org.esupportail.smsu.web.OptionalValidatorFactoryBean" />
 
-  <bean id="wsController" class="org.esupportail.smsu.web.ws.WsController">
-		<property name="authorizedClientNames" value="${smsu.ws.authorizedClientNames}"></property>
-  </bean>
 </beans>
