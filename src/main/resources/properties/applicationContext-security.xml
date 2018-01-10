@@ -120,5 +120,9 @@
 	
 	<beans:bean id="smsuAuthoritiesPopulator" class="org.esupportail.smsu.business.SmsuAuthoritiesPopulator"/>
 
+    <beans:bean id="expressionHandler" class=
+             "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    </beans:bean>
+
 </beans:beans>
 

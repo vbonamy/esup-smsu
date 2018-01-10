@@ -3,25 +3,24 @@ package org.esupportail.smsu.web.controllers;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.security.RolesAllowed;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.apache.log4j.Logger;
 import org.esupportail.smsu.business.FonctionManager;
 import org.esupportail.smsu.business.RoleManager;
 import org.esupportail.smsu.web.beans.UIRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Transactional
 @Controller
 @RequestMapping(value = "/roles")
-@RolesAllowed("FCTN_GESTION_ROLES_CRUD")
+@PreAuthorize("hasRole('FCTN_GESTION_ROLES_CRUD')")
 public class RolesController {
 
 	@SuppressWarnings("unused")
@@ -32,7 +31,7 @@ public class RolesController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	@RolesAllowed({"FCTN_GESTION_ROLES_CRUD","FCTN_GESTION_ROLES_AFFECT"})
+	@PreAuthorize("hasRole('FCTN_GESTION_ROLES_CRUD') or hasRole('FCTN_GESTION_ROLES_AFFECT')")
 	public List<UIRole> getAllRoles() {
 		return roleManager.getAllRoles();
 	}
