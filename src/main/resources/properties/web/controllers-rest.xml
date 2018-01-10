@@ -25,16 +25,4 @@
    
   <context:component-scan base-package="org.esupportail.smsu.web.controllers"/>
      
-
-  <bean id="approvalController"		class="org.esupportail.smsu.web.controllers.ApprovalController" />
-  <bean id="groupsManagerController"	class="org.esupportail.smsu.web.controllers.GroupsManagerController" />
-  <bean id="loginController"		class="org.esupportail.smsu.web.controllers.LoginController" />
-  <bean id="rolesController"		class="org.esupportail.smsu.web.controllers.RolesController" />
-  <bean id="servicesSmsuController"	class="org.esupportail.smsu.web.controllers.ServicesSmsuController" />
-  <bean id="membershipController"	class="org.esupportail.smsu.web.controllers.MembershipController" />
-  <bean id="messagesController"		class="org.esupportail.smsu.web.controllers.MessagesController" />
-  <bean id="templateManagerController"	class="org.esupportail.smsu.web.controllers.TemplateManagerController" />
-  <bean id="usersController"	class="org.esupportail.smsu.web.controllers.UsersController">
-		<property name="phoneNumberPattern" value="${recipient.phoneNumberPattern}"/>
-  </bean>
 </beans>
