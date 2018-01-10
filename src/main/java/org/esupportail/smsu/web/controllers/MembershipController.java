@@ -1,14 +1,11 @@
 package org.esupportail.smsu.web.controllers;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.smsu.business.MemberManager;
 import org.esupportail.smsu.business.beans.Member;
 import org.esupportail.smsu.exceptions.ldap.LdapUserNotFoundException;
@@ -16,8 +13,13 @@ import org.esupportail.smsu.exceptions.ldap.LdapWriteException;
 import org.esupportail.smsuapi.exceptions.InsufficientQuotaException;
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Transactional
 @Controller
@@ -26,7 +28,7 @@ public class MembershipController {
 	
     @Autowired private MemberManager memberManager;
     
-    @Autowired private I18nService i18nService;
+    @Autowired private MessageSource messageSource;
     
 	protected static enum MembershipStatus {PENDING, OK};
 
@@ -87,7 +89,7 @@ public class MembershipController {
 		final boolean valid = memberManager.valid(member);
 		
 		if (!valid) {
-			String i18nMessage = i18nService.getString("ADHESION.MESSAGE.MEMBERCODEKO");
+			String i18nMessage = messageSource.getMessage("ADHESION.MESSAGE.MEMBERCODEKO", new String[] {}, Locale.getDefault());
 			throw new InvalidParameterException(i18nMessage);
 		}
 		

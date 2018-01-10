@@ -1,18 +1,19 @@
 package org.esupportail.smsu.business;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.commons.services.ldap.LdapUser;
 import org.apache.log4j.Logger;
+import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.smsu.exceptions.ldap.LdapUserNotFoundException;
 import org.esupportail.smsu.services.client.SmsuapiWS;
 import org.esupportail.smsu.services.ldap.LdapUtils;
 import org.esupportail.smsu.services.smtp.SmtpServiceUtils;
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
 /**
  * Business layer concerning smsu notification invalid mail.
@@ -20,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class NotificationByMailForInvalidPhoneManager {
 	
-	@Autowired private I18nService i18nService;
+	@Autowired private MessageSource messageSource;
 	@Autowired private LdapUtils ldapUtils;
 	@Autowired private SmtpServiceUtils smtpServiceUtils;
 	@Autowired private SmsuapiWS smsuapiWS;
@@ -89,11 +90,9 @@ public class NotificationByMailForInvalidPhoneManager {
     		String mail = getMail(uid);
 			    		if (mail != null) {
 			    		// 3 - Send mail
-			        	String subject = i18nService.getString("MSG.SUBJECT.MAIL.TO.INVALIDPHONE", 
-			        					 i18nService.getDefaultLocale());
+			        	String subject = messageSource.getMessage("MSG.SUBJECT.MAIL.TO.INVALIDPHONE", new String[] {}, Locale.getDefault());
 			        	
-			    		String textBody = i18nService.getString("MSG.TEXTBOX.MAIL.TO.INVALIDPHONE",
-			    					  i18nService.getDefaultLocale(), phoneNumber);
+			    		String textBody = messageSource.getMessage("MSG.TEXTBOX.MAIL.TO.INVALIDPHONE", new String[] {phoneNumber}, Locale.getDefault());
 			        	
 			        	smtpServiceUtils.sendOneMessage(mail, subject, textBody);
 			    		} else {

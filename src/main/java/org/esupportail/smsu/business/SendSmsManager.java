@@ -1,5 +1,6 @@
 package org.esupportail.smsu.business;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -7,16 +8,15 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.text.DateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.commons.services.ldap.LdapUser;
 import org.apache.log4j.Logger;
+import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.smsu.dao.DaoService;
 import org.esupportail.smsu.dao.beans.Account;
 import org.esupportail.smsu.dao.beans.BasicGroup;
@@ -48,12 +48,13 @@ import org.esupportail.smsuapi.services.client.SmsuapiWS.AuthenticationFailedExc
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.MessageSource;
 
 
 public class SendSmsManager  {
 
 	@Autowired private DaoService daoService;
-	@Autowired private I18nService i18nService;
+	@Autowired private MessageSource messageSource;
 	@Autowired private SmsuapiWS smsuapiWS;
 	@Autowired private SmtpServiceUtils smtpServiceUtils;
 	@Autowired private LdapUtils ldapUtils;
@@ -310,10 +311,10 @@ public class SendSmsManager  {
 	}
 
 	private String i18nMsgDate(Message msg) {
-		return DateFormat.getDateInstance(DateFormat.MEDIUM, i18nService.getDefaultLocale()).format(msg.getDate());
+		return DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(msg.getDate());
 	}
 	private String i18nMsgTime(Message msg) {
-		return DateFormat.getTimeInstance(DateFormat.MEDIUM, i18nService.getDefaultLocale()).format(msg.getDate());
+		return DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault()).format(msg.getDate());
 	}
 
 	private Set<Person> getSupervisors(CustomizedGroup cGroup) {
@@ -967,16 +968,16 @@ public class SendSmsManager  {
 	}
 
 	private String getI18nString(String key, String arg1) {
-		return i18nService.getString(key, i18nService.getDefaultLocale(), arg1);
+		return messageSource.getMessage(key, new String[] {arg1}, Locale.getDefault());
 	}
 	private String getI18nString(String key, String arg1, String arg2) {
-		return i18nService.getString(key, i18nService.getDefaultLocale(), arg1, arg2);
+		return messageSource.getMessage(key, new String[] {arg1, arg2}, Locale.getDefault());
 	}
 	private String getI18nString(String key, String arg1, String arg2, String arg3) {
-		return i18nService.getString(key, i18nService.getDefaultLocale(), arg1, arg2, arg3);
+		return messageSource.getMessage(key, new String[] {arg1, arg2, arg3}, Locale.getDefault());
 	}
 	private String getI18nString(String key, String arg1, String arg2, String arg3, String arg4) {
-		return i18nService.getString(key, i18nService.getDefaultLocale(), arg1, arg2, arg3, arg4);
+		return messageSource.getMessage(key, new String[] {arg1, arg2, arg3, arg4}, Locale.getDefault());
 	}
 
 	private <A> LinkedList<A> singletonList(A e) {
