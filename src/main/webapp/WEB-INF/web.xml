@@ -59,42 +59,17 @@
 	  <filter-name>CrossOriginFilter</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+ 	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
 
-
-	<filter>
-	  <filter-name>CAS Single Sign Out Filter</filter-name>
-	  <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
-	</filter>
-	<filter>
-	  <filter-name>CASAuthenticationFilter</filter-name>
-	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter>
-	  <filter-name>CASValidationFilter</filter-name>
-	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter>
-	  <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-	  <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-	  <filter-name>CAS Single Sign Out Filter</filter-name>
-	  <url-pattern>/rest/login</url-pattern>
-	</filter-mapping>
-        <filter-mapping>
-	  <filter-name>CASAuthenticationFilter</filter-name>
-	  <url-pattern>/rest/login</url-pattern>
-        </filter-mapping>
-        <filter-mapping>
-	  <filter-name>CASValidationFilter</filter-name>
-	  <url-pattern>/rest/login</url-pattern>
-        </filter-mapping>
-        <filter-mapping>
-	  <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-	  <url-pattern>/rest/*</url-pattern>
-        </filter-mapping>
-
+    <filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
+	
 	<filter>
 	  <filter-name>CsrfPrevention</filter-name>
 	  <filter-class>org.esupportail.smsu.web.CsrfPreventionFilterHttpHeader</filter-class>

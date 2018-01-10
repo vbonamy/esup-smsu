@@ -34,4 +34,7 @@
 	<import resource="scheduler/scheduler.xml" /> 
 	<import resource="web/controllers.xml" />
 
+	<import resource="applicationContext-security.xml" />
+
 </beans>
+

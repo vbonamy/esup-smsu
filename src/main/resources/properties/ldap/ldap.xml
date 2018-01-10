@@ -235,5 +235,17 @@
 		<property name="objectClassToAdd" value="${ldap.objectClassToAdd}"/>
 		<property name="groupMemberContainsUserAttribute" value="${ldap.group.groupMemberContainsUserAttribute}"/>
 	</bean>
+	
+	
+	
+	<!-- SPRING-LDAP -->
+	
+	<bean id="ldapContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="${ldap.url}" />
+		<property name="base" value="${ldap.base}" />
+		<property name="userDn" value="${ldap.userName}" />
+		<property name="password" value="${ldap.password}" />
+	</bean>
+	
 
 </beans>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- HTTP security configurations -->
+	<http name="http-cas" disable-url-rewriting="true" use-expressions="true" entry-point-ref="casEntryPoint" request-matcher="regex" pattern="^\/rest($|\/.*)|^\/j_spring_cas_security_logout$" authentication-manager-ref="casAuthenticationManager">
+		<logout logout-success-url="/rest/j_spring_cas_security_logout" />
+		<intercept-url access="isAuthenticated()" pattern="/rest/.*" />
+		<session-management session-authentication-strategy-ref="sas" />
+		<custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER" />
+		<custom-filter position="CAS_FILTER" ref="casFilter" />
+		<custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>
+    	<custom-filter ref="singleLogoutFilter" before="CAS_FILTER"/>
+	</http>
+
+	<authentication-manager alias="casAuthenticationManager">
+		<!-- SHA-256 values can be produced using 'echo -n your_desired_password 
+			| sha256sum' (using normal *nix environments) -->
+		<authentication-provider ref="casAuthenticationProvider" />
+	</authentication-manager>
+	
+	<beans:bean id="concurrencyFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<beans:constructor-arg ref="sessionRegistry"/>
+		<beans:constructor-arg value="/"/>
+	</beans:bean>
+
+	<beans:bean id="sas"
+		class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+		<beans:constructor-arg name="sessionRegistry"
+			ref="sessionRegistry" />
+	</beans:bean>
+
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+
+	<!-- CAS -->
+
+	<!-- This filter handles a Single Logout Request from the CAS Server -->
+	<beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
+	
+	<!-- This filter redirects to the CAS Server to signal Single Logout should 
+		be performed -->
+	<beans:bean id="requestSingleLogoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg value="${cas.url}/logout" />
+		<beans:constructor-arg>
+			<beans:bean
+				class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+			</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/rest/j_spring_cas_security_logout" />
+	</beans:bean>
+
+	<beans:bean id="serviceProperties"
+		class="org.springframework.security.cas.ServiceProperties">
+		<beans:property name="service"
+			value="${server.url}/rest/j_spring_cas_security_check" />
+		<beans:property name="sendRenew" value="false" />
+	</beans:bean>
+
+
+	<beans:bean id="casFilter"
+		class="org.springframework.security.cas.web.CasAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="casAuthenticationManager" />
+		<beans:property name="sessionAuthenticationStrategy"
+			ref="sas" />
+		<beans:property name="requiresAuthenticationRequestMatcher" ref="casFilterProcessUrlRequestMatcher" />
+	</beans:bean>
+	
+ 	<beans:bean id="casFilterProcessUrlRequestMatcher" class="org.springframework.security.web.authentication.logout.LogoutFilter$FilterProcessUrlRequestMatcher">  
+        <beans:constructor-arg value="/rest/j_spring_cas_security_check" />  
+    </beans:bean>  
+    
+	<beans:bean id="casEntryPoint"
+		class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+		<beans:property name="loginUrl" value="${cas.url}/login" />
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+	</beans:bean>
+
+
+	<beans:bean id="casAuthenticationProvider"
+		class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+		<beans:property name="authenticationUserDetailsService"
+			ref="authUserDetailsService" />
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+		<beans:property name="ticketValidator">
+			<beans:bean
+				class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+				<beans:constructor-arg index="0"
+					value="${cas.url}" />
+			</beans:bean>
+		</beans:property>
+		<beans:property name="key" value="SmsuAuthKeyCAS" />
+	</beans:bean>
+
+
+	<beans:bean id="authUserDetailsService"
+		class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+		<beans:property name="userDetailsService" ref="ldapUserDetailsService" />
+	</beans:bean>
+
+
+	<beans:bean id="ldapUserDetailsService"
+		class="org.springframework.security.ldap.userdetails.LdapUserDetailsService">
+		<beans:constructor-arg>
+			<beans:bean
+				class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+				<beans:constructor-arg>
+					<beans:value>${ldap.dnSubPath}</beans:value>
+				</beans:constructor-arg>
+				<beans:constructor-arg>
+					<beans:value>(${ldap.uidAttribute}={0})</beans:value>
+				</beans:constructor-arg>
+				<beans:constructor-arg ref="ldapContextSource" />
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+
+
+</beans:beans>
