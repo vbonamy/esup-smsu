@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.esupportail.smsu.domain.beans.User;
 import org.esupportail.smsu.services.UrlGenerator;
 import org.esupportail.smsu.web.Helper;
 
+@Transactional
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController {

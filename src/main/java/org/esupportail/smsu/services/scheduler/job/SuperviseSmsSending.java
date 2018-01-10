@@ -6,12 +6,14 @@ import org.esupportail.smsu.services.scheduler.AbstractQuartzJob;
 import org.esupportail.smsuapi.exceptions.InsufficientQuotaException;
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author PRQD8824
  *
  */
+@Transactional
 public class SuperviseSmsSending extends AbstractQuartzJob {
 
 	/**

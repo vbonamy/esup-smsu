@@ -35,12 +35,14 @@ import org.esupportail.smsuapi.utils.HttpException;
 import org.esupportail.ws.remote.beans.TrackInfos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
  * A bean to manage user preferences.
  */
 
+@Transactional
 @Controller
 @RequestMapping(value = "/messages")
 @RolesAllowed({"FCTN_SUIVI_ENVOIS_ETABL","FCTN_SUIVI_ENVOIS_UTIL"})

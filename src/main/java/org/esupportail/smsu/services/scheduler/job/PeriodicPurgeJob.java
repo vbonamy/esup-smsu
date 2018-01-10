@@ -4,12 +4,14 @@ import org.apache.log4j.Logger;
 import org.esupportail.smsu.business.purge.PeriodicPurge;
 import org.esupportail.smsu.services.scheduler.AbstractQuartzJob;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This job launch the periodic purge.
  * @author PRQD8824
  *
  */
+@Transactional
 public class PeriodicPurgeJob extends AbstractQuartzJob {
 
 	

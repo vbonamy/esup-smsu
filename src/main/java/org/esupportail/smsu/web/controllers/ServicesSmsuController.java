@@ -15,7 +15,9 @@ import org.esupportail.smsu.business.ServiceManager;
 import org.esupportail.smsu.web.beans.UIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Controller
 @RequestMapping(value = "/services")
 @RolesAllowed("FCTN_GESTION_SERVICES_CP")

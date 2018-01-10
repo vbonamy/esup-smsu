@@ -1,8 +1,6 @@
 package org.esupportail.smsu.services.scheduler;
 
 import org.apache.log4j.Logger;
-import org.esupportail.smsu.utils.HibernateUtils;
-import org.hibernate.SessionFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
@@ -81,10 +79,6 @@ public abstract class AbstractQuartzJob extends QuartzJobBean implements Statefu
         // get the quartz exception handler (use to manage error in job)
         final QuartzExceptionHandler exceptionHandler = getQuartzExceptionHandler(context);
 
-
-       	SessionFactory sessionFactory = HibernateUtils.getSessionFactory(applicationContext);
-
-    	boolean participate = HibernateUtils.openSession(sessionFactory);
     	try {     
         	executeJob(applicationContext);
         } catch (Throwable t) {
@@ -94,9 +88,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean implements Statefu
             } else {
                 throw new UnsupportedOperationException("The exceptionHander has to be not null");
             }
-        } finally {
-		HibernateUtils.closeSession(sessionFactory, participate);
-	}
+        }
 	}
 	
 	/**

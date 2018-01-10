@@ -17,7 +17,9 @@ import org.esupportail.smsuapi.exceptions.InsufficientQuotaException;
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Controller
 @RequestMapping(value = "/membership")
 public class MembershipController {

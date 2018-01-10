@@ -105,19 +105,6 @@
 	</filter-mapping>
 
 	<filter>
-	  <filter-name>OneHibernateSessionPerRequest</filter-name>
-	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>OneHibernateSessionPerRequest</filter-name>
-	  <url-pattern>/rest/*</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-	  <filter-name>OneHibernateSessionPerRequest</filter-name>
-	  <url-pattern>/ws/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
 	  <filter-name>AuthAndRoleAndMiscFilter</filter-name>
 	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>

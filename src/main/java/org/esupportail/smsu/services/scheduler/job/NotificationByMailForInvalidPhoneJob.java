@@ -5,12 +5,14 @@ import org.esupportail.smsu.business.NotificationByMailForInvalidPhoneManager;
 import org.esupportail.smsu.services.scheduler.AbstractQuartzJob;
 import org.esupportail.smsuapi.utils.HttpException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This job launch the pending member table purge.
  * @author PRQD8824
  *
  */
+@Transactional
 public class NotificationByMailForInvalidPhoneJob extends AbstractQuartzJob {
 
 	/**

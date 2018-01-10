@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.esupportail.smsu.business.SecurityManager;
@@ -24,6 +25,7 @@ import org.esupportail.smsu.services.UrlGenerator;
 import org.jasig.cas.client.util.CommonUtils;
 
 
+@Transactional
 public final class AuthAndRoleAndMiscFilter implements Filter {
 	
     @Autowired private UrlGenerator urlGenerator;
