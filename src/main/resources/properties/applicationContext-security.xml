@@ -115,7 +115,10 @@
 				<beans:constructor-arg ref="ldapContextSource" />
 			</beans:bean>
 		</beans:constructor-arg>
+		<beans:constructor-arg ref="smsuAuthoritiesPopulator"/>
 	</beans:bean>
-
+	
+	<beans:bean id="smsuAuthoritiesPopulator" class="org.esupportail.smsu.business.SmsuAuthoritiesPopulator"/>
 
 </beans:beans>
+
